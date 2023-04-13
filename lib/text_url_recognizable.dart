@@ -12,7 +12,8 @@ class TextUrlRecognizable extends StatelessWidget {
     this.onTap,
   }) : super(key: key);
 
-  static final RegExp urlRegExp = RegExp(r'(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+');
+  static final RegExp urlRegExp =
+      RegExp(r'(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+');
 
   ///Initial text to extract possible URL
   final String? text;
@@ -29,7 +30,8 @@ class TextUrlRecognizable extends StatelessWidget {
   final dynamic Function(String)? onTap;
 
   @override
-  Widget build(BuildContext context) => Text.rich(TextSpan(children: _generateInlineSpans(text!), style: style));
+  Widget build(BuildContext context) =>
+      Text.rich(TextSpan(children: _generateInlineSpans(text!), style: style));
 
   ///Splits original text into spans including "URL-styled" span
   List<InlineSpan> _generateInlineSpans(String text) {
@@ -44,17 +46,20 @@ class TextUrlRecognizable extends StatelessWidget {
     }
     final String linkText = match.group(0)!;
     list.add(_buildUrlSpan(linkText, linkText));
-    list.addAll(_generateInlineSpans(text.substring(match.start + linkText.length)));
+    list.addAll(
+        _generateInlineSpans(text.substring(match.start + linkText.length)));
     return list;
   }
 
   ///Builds "Url-styled" span of extracted URL
   WidgetSpan _buildUrlSpan(String text, String linkToOpen) {
     TextStyle urlStyle = style ?? const TextStyle();
-    urlStyle = urlStyle.copyWith(color: urlColor, decoration: TextDecoration.underline);
+    urlStyle = urlStyle.copyWith(
+        color: urlColor, decoration: TextDecoration.underline);
     return WidgetSpan(
         child: InkWell(
-      onTap: (launchUrlOnTap && onTap != null) ? onTap!(linkToOpen) : () {},
+      onTap:
+          (launchUrlOnTap && onTap != null) ? () => onTap!(linkToOpen) : null,
       child: Text(text, style: urlStyle),
     ));
   }
